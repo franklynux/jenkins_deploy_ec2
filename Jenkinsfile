@@ -23,6 +23,7 @@ pipeline {
                     sshagent (['ec2-server']) {
                         sh "scp -o StrictHostKeyChecking=no websetup.sh ubuntu@${EC2_IP}:/home/ubuntu"
                         sh "ssh -o StrictHostKeyChecking=no ubuntu@${EC2_IP} ${shellCmd}"
+                        
                     }
                 }
             }
