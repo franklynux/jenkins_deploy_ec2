@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     environment {
-        EC2_IP = '3.128.226.228'
+        EC2_IP = '34.224.81.73'
     }
 
     stages {
@@ -15,7 +15,7 @@ pipeline {
             }
         }
         
-        /*stage ('deploy to EC2') {
+        stage ('deploy to EC2') {
             steps {
                 script {
                     echo "deploying to shell-script to ec2"
@@ -26,6 +26,6 @@ pipeline {
                     }
                 }
             }
-        }*/
+        }
     }
 }
