@@ -81,7 +81,7 @@ pipeline {
     post {
         always {
             echo 'Cleaning up workspace...'
-            cleanWs()
+            deleteDir() // Replaces cleanWs()
             // Optionally, perform additional cleanup or logging
         }
         success {
