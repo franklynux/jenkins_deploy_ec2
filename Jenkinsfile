@@ -4,7 +4,7 @@ pipeline {
     environment {
         EC2_IP = '3.83.179.213'
         DOCKERHUB_CREDENTIALS = credentials('dockerhub-credentials') // Ensure this ID matches your Jenkins credentials
-        DOCKER_IMAGE = 'franklynux/e-commerce-web:${BUILD_NUMBER}'
+        DOCKER_IMAGE = "franklynux/e-commerce-web:${BUILD_NUMBER}"
         EC2_INSTANCE_KEY = credentials('ec2-server') // Ensure this ID matches your Jenkins SSH credentials
     }
 
@@ -25,11 +25,10 @@ pipeline {
             }
             post {
                 always {
-                    // Example: Publish test reports if generated
-                    // Uncomment and modify the following lines if applicable
+                    echo 'Post actions for Unit Tests stage'
+                    // Uncomment and modify if applicable
                     // junit 'test-results/*.xml'
                     
-                    // Example: Publish HTML coverage reports
                     // publishHTML([
                     //     allowMissing: false,
                     //     alwaysLinkToLastBuild: true,
