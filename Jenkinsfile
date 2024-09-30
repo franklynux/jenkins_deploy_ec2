@@ -52,27 +52,31 @@ pipeline {
 
         stage('Push to Docker Hub') {
             steps {
-                echo "Pushing Docker Image to Docker Hub"
-                docker.withRegistry('https://registry.hub.docker.com', 'dockerhub-credentials') {
-                    sh "docker push ${DOCKER_IMAGE}"
+                script {
+                    echo "Pushing Docker Image to Docker Hub"
+                    docker.withRegistry('https://registry.hub.docker.com', 'dockerhub-credentials') {
+                        sh "docker push ${DOCKER_IMAGE}"
+                    }
+                    // Optional: Remove the local image to save space
+                    sh "docker rmi ${DOCKER_IMAGE}"
                 }
-                // Optional: Remove the local image to save space
-                sh "docker rmi ${DOCKER_IMAGE}"
             }
         }
 
         stage('Deploy to EC2') {
             steps {
-                echo "Deploying to EC2 Instance: ${EC2_IP}"
-                def dockerCmd = """
-                    docker pull ${DOCKER_IMAGE}
-                    docker stop e-commerce-web || true
-                    docker rm e-commerce-web || true
-                    docker run -d --name e-commerce-web -p 80:80 ${DOCKER_IMAGE}
-                """
-                sshagent(['ec2-server']) { // Ensure 'ec2-server' matches your SSH credentials ID
-                    // Execute Docker commands on EC2
-                    sh "ssh -o StrictHostKeyChecking=no ubuntu@${EC2_IP} '${dockerCmd}'"
+                script {
+                    echo "Deploying to EC2 Instance: ${EC2_IP}"
+                    def dockerCmd = """
+                        docker pull ${DOCKER_IMAGE}
+                        docker stop e-commerce-web || true
+                        docker rm e-commerce-web || true
+                        docker run -d --name e-commerce-web -p 80:80 ${DOCKER_IMAGE}
+                    """
+                    sshagent(['ec2-server']) { // Ensure 'ec2-server' matches your SSH credentials ID
+                        // Execute Docker commands on EC2
+                        sh "ssh -o StrictHostKeyChecking=no ubuntu@${EC2_IP} '${dockerCmd}'"
+                    }
                 }
             }
         }
