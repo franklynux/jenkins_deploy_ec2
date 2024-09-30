@@ -23,23 +23,7 @@ pipeline {
                 echo "Running Unit Tests"
                 sh 'python3 test_website.py'
             }
-            post {
-                always {
-                    echo 'Post actions for Unit Tests stage'
-                    // Uncomment and modify if applicable
-                    // junit 'test-results/*.xml'
-                    
-                    // publishHTML([
-                    //     allowMissing: false,
-                    //     alwaysLinkToLastBuild: true,
-                    //     keepAll: true,
-                    //     reportDir: 'coverage',
-                    //     reportFiles: 'index.html',
-                    //     reportName: 'Coverage Report',
-                    //     reportTitles: 'Code Coverage'
-                    // ])
-                }
-            }
+            // Removed the post block since it's not needed
         }
 
         stage('Build Docker Image') {
