@@ -83,20 +83,18 @@ pipeline {
     }
 
     post {
-        always {
-            echo 'Cleaning up workspace...'
-            script {
-                cleanWs() // Wrapped inside script {}
-            }
-            // Optionally, perform additional cleanup or logging
+    always {
+        echo 'Cleaning up workspace...'
+        node {
+            cleanWs()
         }
-        success {
-            echo 'Pipeline completed successfully!'
-            // Optionally, send a success notification (e.g., Slack, Email)
-        }
-        failure {
-            echo 'Pipeline failed. Check the logs for details.'
-            // Optionally, send a failure notification
-        }
+        // Other post-build actions...
     }
+    success {
+        echo 'Pipeline completed successfully!'
+    }
+    failure {
+        echo 'Pipeline failed. Check the logs for details.'
+    }
+}
 }
